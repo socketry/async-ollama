@@ -14,7 +14,7 @@ describe Async::Ollama::Client do
 	def before
 		super
 		
-		@client = Async::Ollama.connect
+		@client = Async::Ollama::Client.open
 	end
 	
 	def after
@@ -24,12 +24,8 @@ describe Async::Ollama::Client do
 	end
 	
 	it "can connect to the default endpoint" do
-		response = client.generate("Hello")
+		generate = client.generate("Hello, this is a unit test. Please respond with the following text: Hello.")
 		
-		response.body.each do |line|
-			puts line
-		end
-	ensure
-		generate.close
+		expect(generate.response).to be =~ /Hello/
 	end
 end

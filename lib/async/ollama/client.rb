@@ -19,17 +19,5 @@ module Async
 				Generate.post(self.with(path: '/api/generate'), options, &block)
 			end
 		end
-		
-		def self.connect(endpoint = DEFAULT_ENDPOINT)
-			representation = Client.for(endpoint)
-			
-			return representation unless block_given?
-		
-			Sync do
-				yield representation
-			ensure
-				representation.close
-			end
-		end
 	end
 end
