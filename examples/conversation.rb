@@ -28,15 +28,23 @@ class Entity
 				@generator = @generator.generate(input)
 			end
 			
-			sleep(rand(1..10))
+			output = @generator.response
 			
-			room.broadcast(self, @generator.response)
+			if from
+				$stderr.puts "*** Entity #{@name} responds to #{from.name} *** #{output}\n\n\n"
+			else
+				$stderr.puts "*** Entity #{@name} responds *** #{output}\n\n\n"
+			end
+			
+			sleep(rand(30..60))
+			
+			room.broadcast(self, output, from)
 		end
 	end
 end
 
 class Room
-	SYSTEM = "You are role playing as a character. You will receive textual input from other players and must respond according to your background. Stay in character at all times."
+	SYSTEM = "You are role playing as a character. You will receive textual input from other players and must respond according to your background. Stay in character at all times. Keep your response short and to the point."
 	
 	def initialize
 		@entities = []
@@ -50,9 +58,7 @@ class Room
 		entity.broadcast(self, nil, prompt)
 	end
 	
-	def broadcast(entity, input)
-		$stderr.puts "*** Entity #{entity.name} says *** #{input}"
-		
+	def broadcast(entity, input, response_to = nil)
 		@entities.each do |target|
 			unless entity.equal?(target)
 				target.broadcast(self, entity, input)
