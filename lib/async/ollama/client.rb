@@ -14,7 +14,7 @@ module Async
 			
 			def generate(prompt, **options, &block)
 				options[:prompt] = prompt
-				options[:model] ||= 'llama2'
+				options[:model] ||= 'llama3'
 				
 				Generate.post(self.with(path: '/api/generate'), options, &block)
 			end
