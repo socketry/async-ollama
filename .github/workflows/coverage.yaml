@@ -18,7 +18,6 @@ jobs:
       matrix:
         os:
           - ubuntu
-          - macos
         
         ruby:
           - "3.3"
@@ -30,10 +29,16 @@ jobs:
         ruby-version: ${{matrix.ruby}}
         bundler-cache: true
     
+    - name: Install ollama
+      run: |
+        curl -fsSL https://ollama.com/install.sh | sh
+        sudo systemctl status ollama
+        ollama pull llama3
+    
     - name: Run tests
       timeout-minutes: 5
       run: bundle exec bake test
-
+    
     - uses: actions/upload-artifact@v3
       with:
         name: coverage-${{matrix.os}}-${{matrix.ruby}}
