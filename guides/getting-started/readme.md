@@ -10,6 +10,10 @@ Add the gem to your project:
 $ bundle add async-ollama
 ~~~
 
+### Ollama
+
+You'll also need to install and start Ollama. You can find instructions for doing so at [https://ollama.com](https://ollama.com).
+
 ## Core Concepts
 
 - The {ruby Async::Ollama::Client} is used for interacting with the Ollama server.
