@@ -45,3 +45,4 @@ Async::Ollama::Client.open do |client|
 	#
 	# Let me know if you'd like more!
 end
+~~~
