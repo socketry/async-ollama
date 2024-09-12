@@ -3,13 +3,13 @@
 # Released under the MIT License.
 # Copyright, 2024, by Samuel Williams.
 
-require 'async/rest/wrapper/generic'
-require 'async/rest/wrapper/json'
+require "async/rest/wrapper/generic"
+require "async/rest/wrapper/json"
 
-require 'protocol/http/body/wrapper'
-require 'protocol/http/body/buffered'
+require "protocol/http/body/wrapper"
+require "protocol/http/body/buffered"
 
-require 'json'
+require "json"
 
 module Async
 	module Ollama
@@ -18,11 +18,11 @@ module Async
 			APPLICATION_JSON_STREAM = "application/x-ndjson"
 			
 			def prepare_request(request, payload)
-				request.headers.add('accept', APPLICATION_JSON)
-				request.headers.add('accept', APPLICATION_JSON_STREAM)
+				request.headers.add("accept", APPLICATION_JSON)
+				request.headers.add("accept", APPLICATION_JSON_STREAM)
 				
 				if payload
-					request.headers['content-type'] = APPLICATION_JSON
+					request.headers["content-type"] = APPLICATION_JSON
 					
 					request.body = ::Protocol::HTTP::Body::Buffered.new([
 						::JSON.dump(payload)
@@ -85,7 +85,7 @@ module Async
 			end
 			
 			def parser_for(response)
-				case response.headers['content-type']
+				case response.headers["content-type"]
 				when APPLICATION_JSON
 					return Async::REST::Wrapper::JSON::Parser
 				when APPLICATION_JSON_STREAM

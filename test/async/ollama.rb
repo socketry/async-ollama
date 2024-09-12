@@ -3,7 +3,7 @@
 # Released under the MIT License.
 # Copyright, 2024, by Samuel Williams.
 
-require 'async/ollama'
+require "async/ollama"
 
 describe Async::Ollama do
 	it "should have a version number" do

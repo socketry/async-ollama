@@ -4,9 +4,9 @@
 # Released under the MIT License.
 # Copyright, 2024, by Samuel Williams.
 
-require_relative 'lib/async/ollama'
+require_relative "lib/async/ollama"
 
-require 'console'
+require "console"
 
 terminal = Console::Terminal.for($stdout)
 terminal[:reply] = terminal.style(:blue)

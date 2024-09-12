@@ -3,8 +3,8 @@
 # Released under the MIT License.
 # Copyright, 2024, by Samuel Williams.
 
-require 'async/rest/representation'
-require_relative 'wrapper'
+require "async/rest/representation"
+require_relative "wrapper"
 
 module Async
 	module Ollama

@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
 	spec.authors = ["Samuel Williams"]
 	spec.license = "MIT"
 	
-	spec.cert_chain  = ['release.cert']
-	spec.signing_key = File.expand_path('~/.gem/release.pem')
+	spec.cert_chain  = ["release.cert"]
+	spec.signing_key = File.expand_path("~/.gem/release.pem")
 	
 	spec.homepage = "https://github.com/socketry/async-ollama"
 	
@@ -20,10 +20,10 @@ Gem::Specification.new do |spec|
 		"source_code_uri" => "https://github.com/socketry/async-ollama.git",
 	}
 	
-	spec.files = Dir.glob(['{lib}/**/*', '*.md'], File::FNM_DOTMATCH, base: __dir__)
+	spec.files = Dir.glob(["{lib}/**/*", "*.md"], File::FNM_DOTMATCH, base: __dir__)
 	
 	spec.required_ruby_version = ">= 3.1"
 	
 	spec.add_dependency "async"
-	spec.add_dependency "async-rest", "~> 0.13.0"
+	spec.add_dependency "async-rest", "~> 0.15"
 end

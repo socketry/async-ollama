@@ -3,24 +3,20 @@
 # Released under the MIT License.
 # Copyright, 2024, by Samuel Williams.
 
-require 'async/ollama'
-require 'sus/fixtures/async/reactor_context'
+require "async/ollama"
+require "sus/fixtures/async/reactor_context"
 
 describe Async::Ollama::Client do
 	include Sus::Fixtures::Async::ReactorContext
 	
 	attr :client
 	
-	def before
-		super
-		
+	before do
 		@client = Async::Ollama::Client.open
 	end
 	
-	def after
+	after do
 		@client.close
-		
-		super
 	end
 	
 	it "can connect to the default endpoint" do
