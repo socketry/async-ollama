@@ -19,7 +19,13 @@ module Async
 				options[:prompt] = prompt
 				options[:model] ||= "llama3"
 				
-				Generate.post(self.with(path: "/api/generate"), options, &block)
+				Generate.post(self.with(path: "/api/generate"), options) do |resource, response|
+					if block_given?
+						yield response
+					end
+					
+					Generate.new(resource, value: response.read, metadata: response.headers)
+				end
 			end
 		end
 	end
