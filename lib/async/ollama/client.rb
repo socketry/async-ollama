@@ -4,7 +4,9 @@
 # Copyright, 2024, by Samuel Williams.
 
 require "async/rest/resource"
+
 require_relative "generate"
+require_relative "models"
 
 module Async
 	module Ollama
@@ -26,6 +28,10 @@ module Async
 					
 					Generate.new(resource, value: response.read, metadata: response.headers)
 				end
+			end
+			
+			def models
+				Models.get(self.with(path: "/api/tags"))
 			end
 		end
 	end

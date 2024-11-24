@@ -85,7 +85,10 @@ module Async
 			end
 			
 			def parser_for(response)
-				case response.headers["content-type"]
+				content_type = response.headers["content-type"]
+				media_type = content_type.split(";").first
+				
+				case media_type
 				when APPLICATION_JSON
 					return Async::REST::Wrapper::JSON::Parser
 				when APPLICATION_JSON_STREAM
