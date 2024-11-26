@@ -19,7 +19,7 @@ module Async
 			# @parameter prompt [String] The prompt to generate a response from.
 			def generate(prompt, **options, &block)
 				options[:prompt] = prompt
-				options[:model] ||= "llama3"
+				options[:model] ||= DEFAULT_MODEL
 				
 				Generate.post(self.with(path: "/api/generate"), options) do |resource, response|
 					if block_given?

@@ -9,7 +9,7 @@ require_relative "toolbox"
 module Async
 	module Ollama
 		class Conversation
-			def initialize(client, model: "llama3", context: nil)
+			def initialize(client, model: DEFAULT_MODEL, context: nil)
 				@client = client
 				
 				@toolbox = Toolbox.new
