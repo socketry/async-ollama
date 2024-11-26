@@ -8,6 +8,8 @@ require_relative "wrapper"
 
 module Async
 	module Ollama
+		DEFAULT_MODEL = "llama3"
+		
 		class Generate < Async::REST::Representation[Wrapper]
 			# The response to the prompt.
 			def response
