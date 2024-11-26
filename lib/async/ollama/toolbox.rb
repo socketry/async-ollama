@@ -24,28 +24,26 @@ module Async
 			PROMPT = "You have access to the following tools, which you can invoke by replying with a single line of valid JSON:\n\n"
 			
 			USAGE = <<~EOF
-				- Use these tools to enhance your ability to answer user queries accurately.
+				Use these tools to enhance your ability to answer user queries accurately.
 				
-				- When you need to use a tool to answer the user's query, respond **only** with the JSON invocation.
+				When you need to use a tool to answer the user's query, respond **only** with the JSON invocation.
 					- Example: {"tool":"ruby", "code": "5+5"}
 					- **Do not** include any explanations, greetings, or additional text when invoking a tool.
 					- If you are dealing with numbers, ensure you provide them as Integers or Floats, not Strings.
 				
-				- After invoking a tool:
+				After invoking a tool:
 					1. You will receive the tool's result as the next input.
 					2. Use the result to formulate a direct, user-friendly response that answers the original query.
 					3. Assume the user is unaware of the tool invocation or its result, so clearly summarize the answer without referring to the tool usage or the response it generated.
 				
-				- Continue the conversation naturally after providing the answer. Ensure your responses are concise and user-focused.
+				Continue the conversation naturally after providing the answer. Ensure your responses are concise and user-focused.
 				
 				## Example Flow:
 				
-				- User: "Why doesn't 5 + 5 equal 11?"
-				- Assistant (invokes tool): {"tool": "ruby", "code": "5+5"}
-				- (Tool Result): 10
-				- Assistant: "The result of 5 + 5 is 10, because addition follows standard arithmetic rules."
-				
-				Remember, invoke tools silently and use their results seamlessly in your responses to the user.
+				User: "Why doesn't 5 + 5 equal 11?"
+				Assistant (invokes tool): {"tool": "ruby", "code": "5+5"}
+				(Tool Result): 10
+				Assistant: "The result of 5 + 5 is 10, because addition follows standard arithmetic rules."
 			EOF
 			
 			def initialize
