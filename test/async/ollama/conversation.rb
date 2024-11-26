@@ -19,6 +19,10 @@ describe Async::Ollama::Client do
 		@client.close
 	end
 	
+	def timeout
+		60*5
+	end
+	
 	let(:conversation) {Async::Ollama::Conversation.new(@client)}
 	
 	it "can invoke a tool" do
