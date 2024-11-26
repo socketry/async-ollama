@@ -24,7 +24,7 @@ module Async
 			PROMPT = "You have access to the following tools, which you can invoke by replying with a single line of valid JSON:\n\n"
 			
 			USAGE = <<~EOF
-				- You are an AI assistant with access to specific tools. Use these tools to enhance your ability to answer user queries accurately.
+				- Use these tools to enhance your ability to answer user queries accurately.
 				
 				- When you need to use a tool to answer the user's query, respond **only** with the JSON invocation.
 					- Example: {"tool":"ruby", "code": "5+5"}
