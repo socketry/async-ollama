@@ -27,19 +27,16 @@ describe Async::Ollama::Client do
 	
 	it "can invoke a tool" do
 		invoked = false
-		conversation.toolbox.register("sum", '{"tool":"sum", "arguments":[...]}') do |message|
-			invoked = message
+		
+		conversation.toolbox.register("sum", name: "sum", description: "Get the sum of an array of numbers", parameters: {type: "object", properties: {numbers: {type: "array", items: {type: "number"}}}, required: ["numbers"]}) do |arguments|
+			invoked = arguments
 			
-			message[:arguments].sum
+			arguments[:numbers].sum
 		end
 		
-		response = conversation.start("You are a mathematician.")
-		inform response
+		response = conversation.call("You are a mathematician., Can you add the first 5 prime numbers?")
 		
-		response = conversation.call("Can you add the first 5 prime numbers?")
-		inform response
-		
-		expect(invoked).to be == {tool: "sum", arguments: [2, 3, 5, 7, 11]}
-		expect(response).to be =~ /28/
+		expect(invoked).to be == {numbers: [2, 3, 5, 7, 11]}
+		expect(response.message[:content]).to be =~ /28/
 	end
 end

@@ -48,7 +48,7 @@ jobs:
       run: |
         curl -fsSL https://ollama.com/install.sh | sh
         sudo systemctl status ollama
-        ollama pull llama3
+        ollama pull llama3.1:latest
     
     - name: Run tests
       timeout-minutes: 10

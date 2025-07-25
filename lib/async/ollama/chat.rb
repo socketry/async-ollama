@@ -14,6 +14,12 @@ module Async
 				self.value[:message]
 			end
 			
+			def tool_calls
+				if message = self.message
+					message[:tool_calls]
+				end
+			end
+			
 			# The model used to generate the response.
 			def model
 				self.value[:model]

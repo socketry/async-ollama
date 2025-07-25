@@ -20,7 +20,11 @@ describe Async::Ollama::Chat do
 	end
 	
 	it "can connect to the default endpoint" do
-		chat = client.chat("Hello, this is a unit test. Please respond with the following text: Hello.")
+		messages = [
+			{role: "user", content: "Hello, this is a unit test. Please respond with the following text: Hello."},
+		]
+		
+		chat = client.chat(messages)
 		
 		expect(chat.message).to have_keys(
 			role: be == "assistant",

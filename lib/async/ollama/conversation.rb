@@ -9,53 +9,38 @@ require_relative "toolbox"
 module Async
 	module Ollama
 		class Conversation
-			def initialize(client, model: DEFAULT_MODEL, context: nil)
+			MODEL = "llama3.1:latest"
+			
+			def initialize(client, model: MODEL, messages: [])
 				@client = client
+				@model = model
+				@messages = messages
 				
 				@toolbox = Toolbox.new
-				
-				@state = Generate.new(client.with(path: "/api/generate"), value: {
-					model: model,
-					context: context,
-				})
 			end
 			
 			attr :toolbox
 			
-			def context
-				@state.context
-			end
+			attr :messages
 			
 			def call(prompt)
-				@state = @state.generate(prompt)
+				@messages << {
+					role: "user",
+					content: prompt
+				}
 				
 				while true
-					response = @state.response
-					if message = tool?(response)
-						result = @toolbox.call(message)
-						@state = @state.generate(result)
-					else
-						return response
+					response = @client.chat(@messages, model: @model, tools: @toolbox.explain)
+					@messages << response.message
+					
+					tool_calls = response.tool_calls
+					
+					return response if tool_calls.nil? || tool_calls.empty?
+					
+					tool_calls.each do |tool_call|
+						@messages << @toolbox.call(tool_call)
 					end
 				end
-			end
-			
-			def start(prompt)
-				call(prompt + "\n\n" + @toolbox.explain)
-			end
-			
-			private
-			
-			def tool?(response)
-				if response.start_with?('{')
-					begin
-						return JSON.parse(response, symbolize_names: true)
-					rescue => error
-						Console.debug(self, error)
-					end
-				end
-				
-				return false
 			end
 		end
 	end

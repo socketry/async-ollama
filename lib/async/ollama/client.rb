@@ -16,11 +16,13 @@ module Async
 			# The default endpoint to connect to.
 			ENDPOINT = Async::HTTP::Endpoint.parse("http://localhost:11434")
 			
+			MODEL = "llama3.1:latest"
+			
 			# Generate a response from the given prompt.
 			# @parameter prompt [String] The prompt to generate a response from.
 			def generate(prompt, **options, &block)
 				options[:prompt] = prompt
-				options[:model] ||= DEFAULT_MODEL
+				options[:model] ||= MODEL
 				
 				Generate.post(self.with(path: "/api/generate"), options) do |resource, response|
 					if block_given?
@@ -31,20 +33,9 @@ module Async
 				end
 			end
 			
-			def chat(prompt, **options, &block)
-				options[:model] ||= "llama3"
-				options[:messages] ||= []
-				
-				if prompt.is_a?(String)
-					message = {
-						role: "user",
-						content: prompt
-					}
-				else
-					message = prompt
-				end
-				
-				options[:messages] << message
+			def chat(messages, **options, &block)
+				options[:model] ||= MODEL
+				options[:messages] = messages
 				
 				Chat.post(self.with(path: "/api/chat"), options) do |resource, response|
 					if block_given?
