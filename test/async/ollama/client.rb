@@ -20,7 +20,7 @@ describe Async::Ollama::Client do
 	end
 	
 	it "can connect to the default endpoint" do
-		generate = client.generate("Hello, this is a unit test. Please respond with the following text: Hello.")
+		generate = client.generate("This is a unit test. Please generate a response that includes the following text: Hello")
 		
 		expect(generate.response).to be =~ /Hello/
 	end
