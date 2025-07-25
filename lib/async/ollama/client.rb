@@ -6,6 +6,7 @@
 require "async/rest/resource"
 
 require_relative "generate"
+require_relative "chat"
 require_relative "models"
 
 module Async
@@ -27,6 +28,30 @@ module Async
 					end
 					
 					Generate.new(resource, value: response.read, metadata: response.headers)
+				end
+			end
+			
+			def chat(prompt, **options, &block)
+				options[:model] ||= "llama3"
+				options[:messages] ||= []
+				
+				if prompt.is_a?(String)
+					message = {
+						role: "user",
+						content: prompt
+					}
+				else
+					message = prompt
+				end
+				
+				options[:messages] << message
+				
+				Chat.post(self.with(path: "/api/chat"), options) do |resource, response|
+					if block_given?
+						yield response
+					end
+					
+					Chat.new(resource, value: response.read, metadata: response.headers)
 				end
 			end
 			

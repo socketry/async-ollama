@@ -19,8 +19,8 @@ Async::Ollama::Client.open do |client|
 		generator = generator.generate(input) do |response|
 			terminal.write terminal[:reply]
 			
-			response.body.each do |token|
-				terminal.write token
+			response.body.each do |line|
+				terminal.write line[:response]
 			end
 			
 			terminal.puts terminal[:reset]
