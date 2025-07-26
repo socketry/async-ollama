@@ -15,6 +15,12 @@ module Async
 				self.value[:message]
 			end
 			
+			def response
+				if message = self.message
+					message[:content]
+				end
+			end
+			
 			# @returns [String | nil] The error message, or nil if not present.
 			def error
 				self.value[:error]

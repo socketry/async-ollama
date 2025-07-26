@@ -34,6 +34,8 @@ describe Async::Ollama::Chat do
 			role: be == "assistant",
 			content: be =~ /Hello/
 		)
+		
+		expect(chat.response).to be =~ /Hello/
 	end
 	
 	it "can stream a response" do
