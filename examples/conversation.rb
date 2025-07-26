@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 # Released under the MIT License.
-# Copyright, 2024, by Samuel Williams.
+# Copyright, 2024-2025, by Samuel Williams.
 
 require_relative "../lib/async/ollama"
 
@@ -13,7 +13,7 @@ class Entity
 		@name = name
 		@background = background
 		
-		@generator = client
+		@conversation = Async::Ollama::Conversation.new(client)
 	end
 	
 	attr :name
@@ -23,12 +23,12 @@ class Entity
 		Async do
 			if from
 				prompt = "#{from.name} says: #{input}"
-				@generator = @generator.generate(prompt)
+				reply = @conversation.call(prompt)
 			else
-				@generator = @generator.generate(input)
+				reply = @conversation.call(input)
 			end
 			
-			output = @generator.response
+			output = reply.response
 			
 			if from
 				$stderr.puts "*** Entity #{@name} responds to #{from.name} *** #{output}\n\n\n"
