@@ -15,6 +15,7 @@ module Async
 				self.value[:message]
 			end
 			
+			# @returns [String | nil] The content of the message, or nil if not present.
 			def response
 				if message = self.message
 					message[:content]
