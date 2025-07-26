@@ -73,6 +73,8 @@ describe Async::Ollama::Client do
 			{role: "assistant", content: "Donuts are a delicious treat to enjoy with coffee."},
 			{role: "user", content: "I also have a sandwich."},
 			{role: "assistant", content: "Sandwiches are a great meal."},
+			{role: "user", content: "I have them in that order: coffee, donut, sandwich."},
+			{role: "assistant", content: "Got it! You have coffee, donut, and sandwich in that order."},
 		]
 		
 		conversation = Async::Ollama::Conversation.new(client, messages: messages)
