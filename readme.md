@@ -12,7 +12,12 @@ Please see the [project documentation](https://socketry.github.io/async-ollama/)
 
 ## Releases
 
-There are no documented releases.
+Please see the [project releases](https://socketry.github.io/async-ollama/releases/index) for all releases.
+
+### v0.5.0
+
+  - Add `Async::Ollama::Conversation` for interactive real-time conversations. Includes support for summarization of chat history for large conversations.
+  - Add `Async::Ollama::Toolbox` for managing tool based interactions with models.
 
 ## Contributing
 
