@@ -48,6 +48,12 @@ describe Async::Ollama::Client do
 				required: ["numbers"]
 			}
 		) do |arguments|
+			numbers = arguments[:numbers]
+			
+			if numbers.is_a?(String)
+				arguments[:numbers] = JSON.parse(numbers)
+			end
+			
 			invoked = arguments
 			
 			arguments[:numbers].sum
