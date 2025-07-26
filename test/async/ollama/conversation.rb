@@ -56,7 +56,7 @@ describe Async::Ollama::Client do
 		end
 		
 		response = conversation.call("You are a mathematician., Can you add the first 5 prime numbers? (You must use the sum tool)")
-				
+		
 		expect(invoked).to be == {numbers: [2, 3, 5, 7, 11]}
 		expect(response.message[:content]).to be =~ /28/
 	end
@@ -76,7 +76,7 @@ describe Async::Ollama::Client do
 		conversation = Async::Ollama::Conversation.new(client, messages: messages, temperature: 0.0)
 		
 		conversation.summarize!
-
+		
 		response = conversation.call("What do I have, in the order I mentioned them?")
 		message = response.message
 		
