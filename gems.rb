@@ -19,6 +19,7 @@ group :test do
 	gem "covered"
 	gem "decode"
 	gem "rubocop"
+	gem "rubocop-socketry"
 	
 	gem "sus-fixtures-async"
 	

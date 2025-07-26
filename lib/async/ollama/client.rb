@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Released under the MIT License.
-# Copyright, 2024, by Samuel Williams.
+# Copyright, 2024-2025, by Samuel Williams.
 
 require "async/rest/resource"
 
@@ -11,12 +11,12 @@ require_relative "models"
 
 module Async
 	module Ollama
+		MODEL = ENV.fetch("ASYNC_OLLAMA_MODEL", "llama3.1:latest")
+		
 		# Represents a connection to the Ollama service.
 		class Client < Async::REST::Resource
 			# The default endpoint to connect to.
 			ENDPOINT = Async::HTTP::Endpoint.parse("http://localhost:11434")
-			
-			MODEL = "llama3.1:latest"
 			
 			# Generate a response from the given prompt.
 			# @parameter prompt [String] The prompt to generate a response from.
