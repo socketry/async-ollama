@@ -19,13 +19,11 @@ describe Async::Ollama::Client do
 		@client.close
 	end
 	
-	def generate(prompt)
-		@client.generate(prompt, options: {temperature: 0.0})
-	end
-	
-	it "can connect to the default endpoint" do
-		generate = self.generate("Please say Hello to me.")
-		
-		expect(generate.response).to be =~ /Hello/
+	with "#models" do
+		it "can list available models" do
+			models = @client.models
+			
+			expect(models.names).to be(:any?)
+		end
 	end
 end

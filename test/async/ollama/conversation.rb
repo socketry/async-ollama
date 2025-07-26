@@ -21,6 +21,12 @@ describe Async::Ollama::Client do
 	
 	let(:conversation) {Async::Ollama::Conversation.new(@client, temperature: 0.0)}
 	
+	it "can handle error responses" do
+		expect do
+			conversation.call({"role" => 10, "content" => ["This is not a valid message"]})
+		end.to raise_exception(Async::Ollama::Conversation::ChatError)
+	end
+	
 	it "can invoke a tool" do
 		invoked = false
 		
@@ -75,6 +81,11 @@ describe Async::Ollama::Client do
 		
 		conversation = Async::Ollama::Conversation.new(client, messages: messages, temperature: 0.0)
 		
+		expect(conversation).to have_attributes(
+			size: be == messages.size,
+			token_count: be == 0,
+		)
+		
 		conversation.summarize!
 		
 		response = conversation.call("What do I have, in the order I mentioned them?")
@@ -83,6 +94,11 @@ describe Async::Ollama::Client do
 		expect(message).to have_keys(
 			role: be == "assistant",
 			content: be =~ /coffee.*donut.*sandwich/mi
+		)
+		
+		expect(conversation).to have_attributes(
+			size: be == 4,
+			token_count: be > 0,
 		)
 	end
 end
