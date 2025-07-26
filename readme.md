@@ -10,6 +10,10 @@ Please see the [project documentation](https://socketry.github.io/async-ollama/)
 
   - [Getting Started](https://socketry.github.io/async-ollama/guides/getting-started/index) - This guide explains how to get started with the `async-ollama` gem.
 
+## Releases
+
+There are no documented releases.
+
 ## Contributing
 
 We welcome contributions to this project.
