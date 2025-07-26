@@ -8,10 +8,17 @@ require_relative "toolbox"
 
 module Async
 	module Ollama
+		# Represents a conversation with the Ollama API, managing messages, tool calls, and summarization.
 		class Conversation
+			# Raised when a chat error occurs during the conversation.
 			class ChatError < StandardError
 			end
 			
+			# Initializes a new conversation.
+			# @parameter client [Client] The Ollama client instance.
+			# @parameter model [String] The model to use for the conversation.
+			# @parameter messages [Array(Hash)] The initial messages for the conversation.
+			# @parameter options [Hash] Additional options for the conversation.
 			def initialize(client, model: MODEL, messages: [], **options)
 				@client = client
 				@model = model
@@ -23,18 +30,25 @@ module Async
 				@last_response = nil
 			end
 			
+			# @attribute [Toolbox] The toolbox for this conversation.
 			attr :toolbox
 			
+			# @attribute [Array(Hash)] The messages in the conversation.
 			attr :messages
 			
+			# @returns [Integer] The number of messages in the conversation.
 			def size
 				@messages.size
 			end
 			
+			# @returns [Integer] The token count of the last response, or 0 if none.
 			def token_count
 				@last_response&.token_count || 0
 			end
 			
+			# Sends a prompt to the conversation and processes the response, including tool calls.
+			# @parameter prompt [String | Hash] The prompt to send (as a string or message hash).
+			# @returns [Chat] The final chat response.
 			def call(prompt, &block)
 				if prompt.is_a?(String)
 					@messages << {
@@ -68,6 +82,10 @@ module Async
 			
 			SUMMARIZE_MESSAGE = "Please summarize the conversation so far for your future reference. Do not introduce new information or questions. Refer to both user and assistant messages. Please keep the summary concise and relevant to the conversation and use it to continue the conversation."
 			
+			# Summarizes the conversation and truncates messages to reduce context usage.
+			# @parameter retain [Integer] The number of messages to retain after summarization.
+			# @parameter role [String] The role to use for the summarization message.
+			# @returns [void]
 			def summarize!(retain = -1, role: "user")
 				current_size = @messages.size
 				

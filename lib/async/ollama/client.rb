@@ -13,13 +13,15 @@ module Async
 	module Ollama
 		MODEL = ENV.fetch("ASYNC_OLLAMA_MODEL", "llama3.1:latest")
 		
-		# Represents a connection to the Ollama service.
+		# Represents a connection to the Ollama service, providing methods to generate completions, chat, and list models.
 		class Client < Async::REST::Resource
 			# The default endpoint to connect to.
 			ENDPOINT = Async::HTTP::Endpoint.parse("http://localhost:11434")
 			
-			# Generate a response from the given prompt.
+			# Generates a response from the given prompt using Ollama.
 			# @parameter prompt [String] The prompt to generate a response from.
+			# @parameter options [Hash] Additional options for the request.
+			# @returns [Generate] The generated response representation.
 			def generate(prompt, **options, &block)
 				options[:prompt] = prompt
 				options[:model] ||= MODEL
@@ -33,6 +35,10 @@ module Async
 				end
 			end
 			
+			# Sends a chat request with the given messages to Ollama.
+			# @parameter messages [Array(Hash)] The chat messages to send.
+			# @parameter options [Hash] Additional options for the request.
+			# @returns [Chat] The chat response representation.
 			def chat(messages, **options, &block)
 				options[:model] ||= MODEL
 				options[:messages] = messages
@@ -46,6 +52,8 @@ module Async
 				end
 			end
 			
+			# Retrieves the list of available models from Ollama.
+			# @returns [Models] The models response representation.
 			def models
 				Models.get(self.with(path: "/api/tags"))
 			end

@@ -8,13 +8,14 @@ require_relative "wrapper"
 
 module Async
 	module Ollama
+		# Represents a generated response from the Ollama API.
 		class Generate < Async::REST::Representation[Wrapper]
-			# The response to the prompt.
+			# @returns [String | nil] The generated response, or nil if not present.
 			def response
 				self.value[:response]
 			end
 			
-			# The model used to generate the response.
+			# @returns [String] The model name used to generate the response.
 			def model
 				self.value[:model]
 			end
