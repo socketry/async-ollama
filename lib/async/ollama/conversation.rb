@@ -12,10 +12,11 @@ module Async
 			class ChatError < StandardError
 			end
 			
-			def initialize(client, model: MODEL, messages: [])
+			def initialize(client, model: MODEL, messages: [], **options)
 				@client = client
 				@model = model
 				@messages = messages
+				@options = options
 				
 				@toolbox = Toolbox.new
 				
@@ -45,7 +46,7 @@ module Async
 				end
 				
 				while true
-					@last_response = @client.chat(@messages, model: @model, tools: @toolbox.explain, &block)
+					@last_response = @client.chat(@messages, model: @model, tools: @toolbox.explain, options: @options, &block)
 					
 					if error = @last_response.error
 						raise ChatError, error

@@ -19,8 +19,12 @@ describe Async::Ollama::Client do
 		@client.close
 	end
 	
+	def generate(prompt)
+		@client.generate(prompt, options: {temperature: 0.0})
+	end
+	
 	it "can connect to the default endpoint" do
-		generate = client.generate("This is a unit test. Please generate a response that includes the following text: Hello")
+		generate = self.generate("Please say Hello to me.")
 		
 		expect(generate.response).to be =~ /Hello/
 	end

@@ -19,11 +19,7 @@ describe Async::Ollama::Client do
 		@client.close
 	end
 	
-	def timeout
-		60*5
-	end
-	
-	let(:conversation) {Async::Ollama::Conversation.new(@client)}
+	let(:conversation) {Async::Ollama::Conversation.new(@client, temperature: 0.0)}
 	
 	it "can invoke a tool" do
 		invoked = false
@@ -77,7 +73,7 @@ describe Async::Ollama::Client do
 			{role: "assistant", content: "Got it! You have coffee, donut, and sandwich in that order."},
 		]
 		
-		conversation = Async::Ollama::Conversation.new(client, messages: messages)
+		conversation = Async::Ollama::Conversation.new(client, messages: messages, temperature: 0.0)
 		
 		conversation.summarize!
 
