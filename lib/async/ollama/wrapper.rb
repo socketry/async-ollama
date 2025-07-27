@@ -143,6 +143,24 @@ module Async
 				when APPLICATION_JSON
 					return Async::REST::Wrapper::JSON::Parser
 				when APPLICATION_JSON_STREAM
+					return StreamingParser
+				end
+			end
+		end
+		
+		# Wraps generate-specific HTTP responses for the Ollama API, selecting the appropriate parser.
+		class GenerateWrapper < Wrapper
+			# Selects the appropriate parser for the generate HTTP response.
+			# @parameter response [Protocol::HTTP::Response] The HTTP response object.
+			# @returns [Class] The parser class to use.
+			def parser_for(response)
+				content_type = response.headers["content-type"]
+				media_type = content_type.split(";").first
+				
+				case media_type
+				when APPLICATION_JSON
+					return Async::REST::Wrapper::JSON::Parser
+				when APPLICATION_JSON_STREAM
 					return StreamingResponseParser
 				end
 			end
