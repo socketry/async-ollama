@@ -14,3 +14,21 @@ def models
 		client.models.names
 	end
 end
+
+# Pulls the specified models from the Ollama API. If no models are specified, but there is a default model, it will pull that one.
+# @parameter models [Array(String)] The names of the models to pull.
+def pull(models)
+	if models.empty?
+		models = [Async::Ollama::Client.default_model]
+	end
+	
+	Async::Ollama::Client.open do |client|
+		models.each do |model|
+			client.pull(model) do |response|
+				response.each do |line|
+					puts line
+				end
+			end
+		end
+	end
+end

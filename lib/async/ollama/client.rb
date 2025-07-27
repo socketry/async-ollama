@@ -8,6 +8,7 @@ require "async/rest/resource"
 require_relative "generate"
 require_relative "chat"
 require_relative "models"
+require_relative "pull"
 
 module Async
 	module Ollama
@@ -56,6 +57,16 @@ module Async
 			# @returns [Models] The models response representation.
 			def models
 				Models.get(self.with(path: "/api/tags"))
+			end
+			
+			def pull(model)
+				Pull.post(self.with(path: "/api/pull"), model: model) do |resource, response|
+					if block_given?
+						yield response
+					end
+					
+					Pull.new(resource, value: response.read, metadata: response.headers)
+				end
 			end
 		end
 	end
