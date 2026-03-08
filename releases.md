@@ -1,6 +1,6 @@
 # Releases
 
-## Unreleased
+## v0.9.0
 
   - Add `Async::Ollama::Transform` for intelligent code transformations using Ollama models. This can be used to implement features like automatic code updates based on instructions, while preserving user modifications and existing content.
 
