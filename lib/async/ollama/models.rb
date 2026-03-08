@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Released under the MIT License.
-# Copyright, 2024-2025, by Samuel Williams.
+# Copyright, 2024-2026, by Samuel Williams.
 
 require "async/rest/representation"
 require_relative "wrapper"
@@ -12,7 +12,7 @@ module Async
 		class Models < Async::REST::Representation[Wrapper]
 			# @returns [Array(String)] The list of model names.
 			def names
-				self.value[:models].map {|model| model[:name]}
+				self.value[:models].map{|model| model[:name]}
 			end
 		end
 	end
