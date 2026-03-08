@@ -7,6 +7,7 @@ require_relative "ollama/version"
 require_relative "ollama/client"
 
 require_relative "ollama/conversation"
+require_relative "ollama/transform"
 
 # @namespace
 module Async
