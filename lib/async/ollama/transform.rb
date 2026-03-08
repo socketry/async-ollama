@@ -50,7 +50,7 @@ module Async
 				Client.open do |client|
 					reply = client.chat(messages, model: model)
 					
-					return strip_fences(reply.response)
+					self.strip_fences(reply.response)
 				end
 			end
 			
