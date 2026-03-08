@@ -1,6 +1,6 @@
 # Releases
 
-## Unreleased
+## v0.10.0
 
   - Update default model to `llama3.2`.
   - Allow model selection for `Async::Ollama::Transform.call(model: "...")`.

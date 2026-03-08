@@ -14,6 +14,12 @@ Please see the [project documentation](https://socketry.github.io/async-ollama/)
 
 Please see the [project releases](https://socketry.github.io/async-ollama/releases/index) for all releases.
 
+### v0.10.0
+
+  - Update default model to `llama3.2`.
+  - Allow model selection for `Async::Ollama::Transform.call(model: "...")`.
+  - Introduce code fence stripping for better handling of code blocks in transformations.
+
 ### v0.9.0
 
   - Add `Async::Ollama::Transform` for intelligent code transformations using Ollama models. This can be used to implement features like automatic code updates based on instructions, while preserving user modifications and existing content.
