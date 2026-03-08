@@ -23,8 +23,9 @@ module Async
 			SYSTEM_PROMPT = <<~PROMPT
 				You are a precise file transformation tool.
 				When given a file and instructions, you output ONLY the transformed file content.
-				Do not add any explanation, preamble, summary of changes, or markdown code fences.
-				Output the raw file content exactly as it should be written to disk.
+				Do not add any explanation, preamble, summary of changes.
+				Output the raw file content exactly as it should be executed.
+				Do not include markdown code fences in your output.
 				Preserve all existing content unless the instructions explicitly require removal.
 				If a reference template is provided, use it as a structural guide for what to add or how to format new content — do not copy it verbatim or replace existing content with it.
 			PROMPT
@@ -40,16 +41,16 @@ module Async
 			# @parameter instruction [String] What change to make.
 			# @parameter template [String | nil] An optional reference example showing the desired structure.
 			# @returns [String] The transformed file content.
-			def call(content, instruction:, template: nil)
+			def call(content, instruction:, template: nil, model: @model)
 				messages = [
 					{role: "system", content: SYSTEM_PROMPT},
 					{role: "user", content: build_prompt(content, instruction, template)}
 				]
 				
 				Client.open do |client|
-					reply = client.chat(messages, model: @model)
+					reply = client.chat(messages, model: model)
 					
-					reply.response
+					return strip_fences(reply.response)
 				end
 			end
 			
@@ -63,6 +64,18 @@ module Async
 			end
 			
 			private
+			
+			def strip_fences(content)
+				content = content.strip
+				
+				# Models frequently wrap output in code fences despite being instructed not to:
+				if match = content.match(/\A```\w*\n(.*\n)```\z/m)
+					Console.warn(self, "Stripping markdown code fences from model output.")
+					content = match[1]
+				end
+				
+				return content
+			end
 			
 			def build_prompt(content, instruction, template = nil)
 				parts = []

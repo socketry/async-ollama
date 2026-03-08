@@ -12,7 +12,7 @@ require_relative "pull"
 
 module Async
 	module Ollama
-		MODEL = ENV.fetch("ASYNC_OLLAMA_MODEL", "llama3.1:latest")
+		MODEL = ENV.fetch("ASYNC_OLLAMA_MODEL", "llama3.2:latest")
 		
 		# Represents a connection to the Ollama service, providing methods to generate completions, chat, and list models.
 		class Client < Async::REST::Resource
