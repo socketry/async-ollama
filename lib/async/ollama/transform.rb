@@ -23,9 +23,8 @@ module Async
 			SYSTEM_PROMPT = <<~PROMPT
 				You are a precise file transformation tool.
 				When given a file and instructions, you output ONLY the transformed file content.
-				Do not add any explanation, preamble, summary of changes.
+				Do not add any explanation, preamble, summary of changes or code fences.
 				Output the raw file content exactly as it should be executed.
-				Do not include markdown code fences in your output.
 				Preserve all existing content unless the instructions explicitly require removal.
 				If a reference template is provided, use it as a structural guide for what to add or how to format new content — do not copy it verbatim or replace existing content with it.
 			PROMPT
@@ -50,7 +49,7 @@ module Async
 				Client.open do |client|
 					reply = client.chat(messages, model: model)
 					
-					self.strip_fences(reply.response)
+					self.strip_fences(content, reply.response)
 				end
 			end
 			
@@ -65,14 +64,23 @@ module Async
 			
 			private
 			
-			def strip_fences(content)
+			def strip_fences(original, content)
 				content = content.strip
 				
 				# Models frequently wrap output in code fences despite being instructed not to:
-				if match = content.match(/\A```\w*\n(.*\n)```\z/m)
-					Console.warn(self, "Stripping markdown code fences from model output.")
+				if match = content.match(/\A```\w*\n(.*?)\n```\z/m)
 					content = match[1]
+				elsif match = content.match(/(.*?)\n```\z/m)
+					unless original.match(/```\s*\z/m)
+						content = match[1]
+					end
 				end
+				
+				unless content.end_with?("\n")
+					content += "\n"
+				end
+				
+				puts content.inspect
 				
 				return content
 			end
