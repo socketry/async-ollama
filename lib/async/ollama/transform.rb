@@ -80,8 +80,6 @@ module Async
 					content += "\n"
 				end
 				
-				puts content.inspect
-				
 				return content
 			end
 			
